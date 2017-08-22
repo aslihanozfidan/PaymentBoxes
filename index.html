@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script
+  src="https://code.jquery.com/jquery-3.2.1.min.js"
+  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+  crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+ <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"> 
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+<title>Payment Boxes</title>
+<style>
+body {
+  overflow-x: hidden;
+}
+body * {
+  transition: all 0.5s;
+}
+.payment-container {
+  margin:10px;
+}
+h2 {
+  text-align: center;
+  font-size: 18px;
+  color: #606060;
+  margin-bottom: 15px;
+  border-bottom: 2px solid #dddddd;
+}
+.box {
+  width: 32.9%;
+  height: 250px;
+  float: left;
+  margin: 0.2%;
+  padding: 15px;
+  box-sizing: border-box;
+  display: inline-block;
+  background: #337ab7;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 0 5px rgba(0,0,0,0.4);
+  cursor: pointer;
+}
+.box .icon-cont {
+  border: 6px solid rgba(255,255,255,0.3);
+  border-radius: 50%;
+  width: 75px;
+  height: 75px;
+  margin: 20px auto;
+  display: block; 
+  text-align: center;
+  
+  position: absolute;
+  top: 10px;
+  left: 0;
+  right: 0;
+  z-index: 5;
+  
+  box-shadow: 0 0 0 0px rgba(255,255,255,0.5), 0 0 0 0px rgba(3, 108, 129, 0.5);
+}
+.box .icon-cont i {
+  color: #fff;
+  opacity: 0.6;
+  font-size: 2.5em;
+  line-height: 75px;
+}
+.box:hover .icon-cont {
+  animation: shady 4s linear infinite;
+}
+
+@keyframes shady {
+  0% {box-shadow: 0 0 0 0px rgba(255,255,255,0.5), 0 0 0 0px rgba(3, 108, 129, 0.5);}
+  20% {box-shadow: 0 0 0 100px rgba(255,255,255,0), 0 0 0 0px rgba(3, 108, 129, 0);}
+  20.1% {box-shadow: 0 0 0 0px rgba(255,255,255,0.5), 0 0 0 0px rgba(3, 108, 129, 0.5);}
+  50% {box-shadow: 0 0 0 0px rgba(255,255,255,0.5), 0 0 0 0px rgba(3, 108, 129, 0.5);}
+  70% {box-shadow: 0 0 0 100px rgba(255,255,255,0), 0 0 0 0px rgba(3, 108, 129, 0);}
+  70.1% {box-shadow: 0 0 0 0px rgba(255,255,255,0.5), 0 0 0 0px rgba(3, 108, 129, 0.5);}
+  100% {box-shadow: 0 0 0 0px rgba(255,255,255,0.5), 0 0 0 0px rgba(3, 108, 129, 0.5);}
+}
+
+.box h3 {
+  color: #fff;
+  font-family: 'Open Sans', Arial, sans-serif;
+  font-weight: 300;
+  font-size: 14px;
+  text-align: center;
+  letter-spacing: 2px;
+  padding: 15px;
+  border-bottom: 1px solid rgba(255,255,255,0);
+  
+  position: absolute;
+  top: 100px;
+  width: 80%;
+  left: 10%;
+  z-index: 4;
+}
+.box ul {
+  font-family: 'Open Sans', Arial, sans-serif;
+  color: #fff;
+  font-size: 13px;
+  line-height: 14px;
+  text-indent: 14px;
+  margin: 25px;
+  padding: 5px;
+  margin-top: 120px;
+  list-style-type: disc;
+}
+
+.box ul.hidden {
+  opacity: 0;
+}
+.box a.expand {
+  width: 70px;
+  height: 45px;
+  background: #fff;
+  font-weight: 600;
+  color: #a53333;
+  display: block;
+  margin: 15px auto 25px;
+  text-align: center;
+  line-height: 35px;
+  cursor: pointer;
+  
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 10px;
+  
+}
+.box a.expand span.minus {
+  opacity: 0;
+}
+.box a.expand span.plus {
+  width:51%;
+  opacity: 1;
+  padding: 5px;
+  border-left: 3px solid #337ab7;
+  float: left;
+}
+.box a.expand span.explain {
+  width:32px;
+  opacity: 1;
+  padding: 5px;
+  float: left;
+}
+.box.selected a.expand {
+  display: block;
+  position: absolute;
+  left: 80%;
+  right: -29px;
+  bottom: -50px;
+  width: 130px;
+  height: 70px;
+  background: #eee;
+  color: #a53333;
+  transform: rotate(-45deg);
+}
+.box.selected a.expand span {
+  display: block;
+  position: absolute;
+  top: -4px;
+  left: 38px;
+  transform: rotate(45deg);
+  font-size: 24px;
+}
+.box.selected a.expand span.minus {
+  opacity: 1;
+}
+.box.selected a.expand span.plus {
+  display: none;
+}
+.box.selected a.expand span.explain {
+  opacity: 0;
+}
+.box.selected .icon-cont {
+  transform: scale(1.5,1.5);
+  opacity: 0.3;
+  position: absolute;
+  top: -20px;
+  left: -5px;
+  right: 180px;
+}
+.box.selected:hover .icon-cont {
+  animation: none;
+}
+.box.selected h3 {
+  padding: 32px 15px 15px 15px;
+  border-bottom: 1px solid rgba(255,255,255,0.3);
+  
+  width: 70%;
+  top: 16px;
+  left: 10%;
+}
+
+.box.selected ul.hidden {
+  opacity: 1;
+  margin-top: 120px;
+}
+.alert-box {
+  background-color: #7bd130;
+  color: white;
+  width: 640px;
+  height: 40px;
+  text-align: center;    
+  width: 940px;
+  opacity: 0;
+}
+table, th {
+  text-align: center;
+}
+tfoot {                                                                                                                                                                                                                                         
+  font-weight: bold;
+}
+.hidden {
+  display: block!important;
+}
+
+@media(max-width:1200px) {
+   .box {
+    width: 49.6%;
+   }
+   .box.selected a.expand {
+    left: 86%;
+  }
+}
+@media(max-width:960px) {
+   .box {
+    width: 100%;
+   }
+   .box.selected a.expand {
+    left: 90%;
+  }
+}
+@media(max-width:600px) {   
+   .box.selected a.expand {
+    left: 85%;
+  }
+}
+</style>
+</head>
+
+<body>
+<div class="payment-container">
+  <h2>PAYMENT BOXES</h2>
+  <div class="box first">
+    <span class="icon-cont"><i class="fa fa-btc"></i></span>
+    
+    <h3>1 Th/s <br/> 250$</h3>
+    
+    <ul class="hidden">
+      <li>Lorem ipsum dolor</li>
+      <li>Set amet consecuter</li>
+      <li>Lorem ipsum dolor</li>
+      <li>Set amet consecuter</li>
+    </ul>
+     
+    <a class="expand">
+      <span class="explain"><i class="fa fa-search-plus"></i></span>
+      <span class="plus" onclick="addShopping('1 Th/s','250$')"><i class="fa fa-shopping-cart"></i></span>
+      <span class="minus"><i class="fa fa-search-minus"></i></span>
+    </a>
+  </div>
+  
+  <div class="box second">
+    <span class="icon-cont"><i class="fa fa-btc"></i></span>
+    
+    <h3>2 Th/s <br/> 500$</h3>
+    
+    <ul class="hidden">
+      <li>Lorem ipsum dolor</li>
+      <li>Set amet consecuter</li>
+      <li>Lorem ipsum dolor</li>
+      <li>Set amet consecuter</li>
+    </ul>
+     
+     <a class="expand">
+      <span class="explain"><i class="fa fa-search-plus"></i></span>
+      <span class="plus" onclick="addShopping('2 Th/s','500$')"><i class="fa fa-shopping-cart"></i></span>
+      <span class="minus"><i class="fa fa-search-minus"></i></span>
+    </a>
+  </div>
+  
+  <div class="box third">
+    <span class="icon-cont"><i class="fa fa-btc"></i></span>
+    
+    <h3>3 Th/s <br/> 750$</h3>
+    
+    <ul class="hidden">
+      <li>Lorem ipsum dolor</li>
+      <li>Set amet consecuter</li>
+      <li>Lorem ipsum dolor</li>
+      <li>Set amet consecuter</li>
+    </ul>
+       
+     <a class="expand">
+      <span class="explain"><i class="fa fa-search-plus"></i></span>
+      <span class="plus" onclick="addShopping('3 Th/s','750$')"><i class="fa fa-shopping-cart"></i></span>
+      <span class="minus"><i class="fa fa-search-minus"></i></span>
+    </a>
+  </div>
+  
+  <div class="box fourth">
+    <span class="icon-cont"><i class="fa fa-btc"></i></span>
+    
+    <h3> 5 Th/s <br/> 1250$</h3>
+    
+    <ul class="hidden">
+      <li>Lorem ipsum dolor</li>
+      <li>Set amet consecuter</li>
+      <li>Lorem ipsum dolor</li>
+      <li>Set amet consecuter</li>
+    </ul>
+     
+     <a class="expand">
+      <span class="explain" click><i class="fa fa-search-plus"></i></span>
+      <span class="plus" onclick="addShopping('5 Th/s','1250$')"><i class="fa fa-shopping-cart"></i></span>
+      <span class="minus"><i class="fa fa-search-minus"></i></span>
+    </a>
+  </div>
+
+   <div class="box fifth">
+    <span class="icon-cont"><i class="fa fa-btc"></i></span>
+    
+    <h3> 10 Th/s <br/> 2500$</h3>
+    
+    <ul class="hidden">
+      <li>Lorem ipsum dolor</li>
+      <li>Set amet consecuter</li>
+      <li>Lorem ipsum dolor</li>
+      <li>Set amet consecuter</li>
+    </ul>
+      
+     <a class="expand">
+      <span class="explain"><i class="fa fa-search-plus"></i></span>
+      <span class="plus" onclick="addShopping('10 Th/s','2500$')"><i class="fa fa-shopping-cart"></i></span>
+      <span class="minus"><i class="fa fa-search-minus"></i></span>
+    </a>
+  </div>
+
+   <div class="box sixth">
+    <span class="icon-cont"><i class="fa fa-btc"></i></span>
+    
+    <h3> 20 Th/s <br/> 5000$</h3>
+    
+    <ul class="hidden">
+      <li>Lorem ipsum dolor</li>
+      <li>Set amet consecuter</li>
+      <li>Lorem ipsum dolor</li>
+      <li>Set amet consecuter</li>
+    </ul>
+        
+     <a class="expand">
+      <span class="explain"><i class="fa fa-search-plus"></i></span>
+      <span class="plus" onclick="addShopping('20 Th/s','5000$')"><i class="fa fa-shopping-cart"></i></span>
+      <span class="minus"><i class="fa fa-search-minus"></i></span>
+    </a>
+  </div>
+
+  <div id="shopping-cart">
+   <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Th/s</th>
+        <th>Payment</th>
+        <th>Delete</th>
+      </tr>
+    </thead>
+    <tbody id="tbody">
+    </tbody>
+     <tfoot>
+    <tr>
+      <td>Total:</td>
+      <td id="shopping-total"></td>
+      <td><button class="btn btn-warning btn-block">PAY</button></td>
+    </tr>
+  </tfoot>
+  </table>
+  </div>
+
+</div>
+<script>
+$('.explain').click(function() {
+  $('.box').toggleClass('selected');  
+});
+$('.minus').click(function() {
+  $('.box').toggleClass('selected');  
+});
+
+
+var shoppingTotal = 0;
+var shopping = [];
+var shoppingCart = [];
+var endShoppingCart = [];
+var i = 0;
+function addShopping(th,pay) {
+  shopping[i] = {"id": i, "th": th, "pay": pay};
+  shoppingCart.push(shopping[i]);
+  $("#shopping-cart tbody").append('<tr class="tr' + i + '"><td>' + shoppingCart[i].th + '</td><td class="payment"' + i +'">' + shoppingCart[i].pay + '</td><td><i id="' + i + '" class="fa fa-trash-o" onclick="deleteShopping(this)"></i></td></tr>');
+  shoppingTotal += parseInt(pay);
+  $("#shopping-total").html(shoppingTotal + "$");
+ /* console.log(th); 
+  console.log(pay); 
+  console.log(i);
+  console.log(shoppingCart);
+  console.log(shoppingTotal);*/
+  
+  i++;
+}
+
+function changeId(id) {
+  for(var z = 0;z < shoppingCart.length - 1; z++) {
+
+  }
+}
+
+function deleteShopping(obj) {
+  var id = obj.getAttribute("id");
+  console.log(shoppingCart[id].pay);
+  //if (id === deleting[0].pay)
+  var deleting = shoppingCart[id].id;  
+  /*for(var z = 0;z < shoppingCart.length - 1; z++) {
+    endShoppingCart[z] = shoppingCart[]
+  }*/
+  $(".tr" + id).remove();
+
+  if (deleting.length === 0){
+    shoppingTotal = "0";
+    $("#shopping-total").html(shoppingTotal + "$");
+  } else {
+    shoppingTotal -= parseInt(shoppingCart[id].pay);
+    $("#shopping-total").html(shoppingTotal + "$");
+  }
+    
+  console.log(shoppingTotal);
+  console.log(obj);
+  console.log(id);
+  console.log(deleting);
+  }
+
+</script>
+
+</body>
+
+</html>
