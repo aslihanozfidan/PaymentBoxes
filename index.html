@@ -378,10 +378,10 @@ tfoot {
 </div>
 <script>
 $('.explain').click(function() {
-  $('.box').toggleClass('selected');  
+  $(this).parent().closest('.box').toggleClass('selected');  
 });
 $('.minus').click(function() {
-  $('.box').toggleClass('selected');  
+  $(this).parent().closest('.box').toggleClass('selected');  
 });
 
 
